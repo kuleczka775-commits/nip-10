@@ -148,7 +148,26 @@ class Manager:
         ]
 
     def get_debtors(self, apartment_key: str, year: int, month: int) -> list[str]:
-        """Get a list of tenant names (debtors) for a given apartment key, year, and month."""
+        """Get a list of tenant names (debtors) for a given apartment key, year, and month.
+
+        Args:
+        ----
+            apartment_key (str): The apartment for which to get a list of debtors.
+
+            year (int): The year for which to get a list of debtors.
+
+            month (int): The month for which to get a list of debtors.
+
+        Returns:
+        -------
+            list: The list of debtors.
+
+        Example:
+        -------
+            >>> manager = Manager()
+            >>> manager.get_debtors(apartment_key=Apart_Polanka, year=2024, month=11)
+
+        """
         if month < 1 or month > 12:
             raise ValueError("Month must be between 1 and 12")
         output = []
@@ -174,7 +193,26 @@ class Manager:
         return output
 
     def calculate_tax(self, year: int, month: int, tax_rate: float) -> float:
-        """Calculate the tax amount based on the total income from transfers."""
+        """Calculate the tax amount based on the total income from transfers.
+
+        Args:
+        ----
+            year (int): The year for which to calculate the tax.
+
+            month (int): The month for which to calculate the tax.
+
+            tax_rate (float): The tax rate for which to calculate the tax.
+
+        Returns:
+        -------
+            float: The tax rate.
+
+        Example:
+        -------
+            >>> manager = Manager()
+            >>> manager.calculate_tax(year=2024, month=11, tax_rate=18.7)
+
+        """
         total_income = sum(
             transfer.amount_pln
             for transfer in self.transfers
@@ -183,7 +221,18 @@ class Manager:
         return round(total_income * tax_rate, 0)
 
     def check_deposits(self) -> float:
-        """Check if the total deposits from tenants cover the total due amounts."""
+        """Check if the total deposits from tenants cover the total due amounts.
+
+        Returns:
+        -------
+            float: The total deposits - the total due amounts.
+
+        Example:
+        -------
+            >>> manager = Manager()
+            >>> manager.check_deposits()
+
+        """
         total_deposits = 0.0
         total_due = 0.0
         for _, tenant in self.tenants.items():
@@ -207,6 +256,11 @@ class Manager:
         Returns:
         -------
             float: The annual balance.
+
+        Example:
+        -------
+            >>> manager = Manager()
+            >>> manager.get_annual_balance(year=2023)
 
         """
         total_income = sum(
